@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Supply Continuity — D365 F&amp;O</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: #faf9f8;
+    color: #201f1e;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .container { max-width: 880px; width: 100%; }
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #004578;
+    margin-bottom: 8px;
+  }
+  .header p { color: #605e5c; font-size: 14px; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card {
+    background: white;
+    border: 1px solid #edebe9;
+    border-radius: 4px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: #0078d4;
+    border-radius: 4px 0 0 4px;
+  }
+  .card:hover { border-color: #0078d4; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card-label {
+    font-size: 11px;
+    color: #605e5c;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+  .card-title { font-size: 16px; font-weight: 600; color: #201f1e; }
+  .card-desc { font-size: 12px; color: #605e5c; line-height: 1.5; }
+  .card-cta { font-size: 12px; color: #0078d4; margin-top: 8px; font-weight: 600; }
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    color: #a19f9d;
+  }
+  @media (max-width: 720px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Supply Continuity</h1>
+      <p>D365 Finance &amp; Operations · Procurement and sourcing module</p>
+    </div>
+    <div class="cards">
+      <a class="card" href="supply-continuity.html">
+        <div class="card-label">Workspace</div>
+        <div class="card-title">Supply continuity</div>
+        <div class="card-desc">Disruption response, alternate sourcing, contract compliance, commitments, supplier performance, and DPO tracking.</div>
+        <div class="card-cta">Open workspace →</div>
+      </a>
+      <a class="card" href="vendor-360.html">
+        <div class="card-label">Vendor 360</div>
+        <div class="card-title">US-102 Tailspin Parts</div>
+        <div class="card-desc">Risk score, performance trends, active contracts, open commitments, payment terms, and invoice history.</div>
+        <div class="card-cta">Open vendor →</div>
+      </a>
+      <a class="card" href="sourcing-decision.html">
+        <div class="card-label">Sourcing decision</div>
+        <div class="card-title">PO-2026-04891</div>
+        <div class="card-desc">Alternate-vendor decision with AVL ranking, PPV variance, reason codes, and approval workflow.</div>
+        <div class="card-cta">Open PO →</div>
+      </a>
+    </div>
+    <div class="footer">USMF · 21 May 2026</div>
+  </div>
+</body>
+</html>

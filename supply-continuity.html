@@ -352,8 +352,11 @@
   .grid tbody tr:hover { background: var(--bg-hover); cursor: pointer; }
   .grid tbody tr.selected { background: var(--fo-blue-light); }
   .grid .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .grid .link { color: var(--fo-blue); }
+  .grid .link { color: var(--fo-blue); text-decoration: none; }
   .grid .link:hover { text-decoration: underline; }
+  a.link { color: var(--fo-blue); text-decoration: none; cursor: pointer; }
+  a.link:hover { text-decoration: underline; }
+  .grid tbody tr.clickable { cursor: pointer; }
   .grid td.muted { color: var(--text-secondary); }
   .grid td.drill {
     width: 28px;
@@ -701,7 +704,7 @@
           <tbody>
             <tr>
               <td><span class="sev sev-critical">Critical</span></td>
-              <td><span class="link">US-101</span> Fabrikam Electronics</td>
+              <td><a class="link" href="vendor-360.html">US-101</a> Fabrikam Electronics</td>
               <td>Force majeure</td>
               <td>20 May 2026</td>
               <td>6–8 weeks</td>
@@ -712,7 +715,7 @@
             </tr>
             <tr>
               <td><span class="sev sev-high">High</span></td>
-              <td><span class="link">US-203</span> Litware Components</td>
+              <td><a class="link" href="vendor-360.html">US-203</a> Litware Components</td>
               <td>Quality hold</td>
               <td>18 May 2026</td>
               <td>TBD</td>
@@ -723,7 +726,7 @@
             </tr>
             <tr>
               <td><span class="sev sev-medium">Medium</span></td>
-              <td><span class="link">US-318</span> Adventure Works</td>
+              <td><a class="link" href="vendor-360.html">US-318</a> Adventure Works</td>
               <td>Capacity constraint</td>
               <td>14 May 2026</td>
               <td>~2 weeks</td>
@@ -734,7 +737,7 @@
             </tr>
             <tr>
               <td><span class="sev sev-medium">Medium</span></td>
-              <td><span class="link">US-422</span> Contoso Logistics</td>
+              <td><a class="link" href="vendor-360.html">US-422</a> Contoso Logistics</td>
               <td>Logistics delay</td>
               <td>12 May 2026</td>
               <td>~5 days</td>
@@ -878,7 +881,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="link">PO-2026-04891</span></td>
+              <td><a class="link" href="sourcing-decision.html">PO-2026-04891</a></td>
               <td>US-102 Tailspin Parts</td>
               <td>D0003 Standard Speaker</td>
               <td class="num">$91,066</td>
@@ -889,7 +892,7 @@
               <td><span class="policy-chip">SRC-DEV-02</span></td>
             </tr>
             <tr>
-              <td><span class="link">PO-2026-04892</span></td>
+              <td><a class="link" href="sourcing-decision.html">PO-2026-04892</a></td>
               <td>US-105 Datum Receivers</td>
               <td>M0001 Wiring Harness</td>
               <td class="num">$34,200</td>
@@ -900,7 +903,7 @@
               <td><span class="policy-chip">SRC-DEV-02</span></td>
             </tr>
             <tr>
-              <td><span class="link">PO-2026-04893</span></td>
+              <td><a class="link" href="sourcing-decision.html">PO-2026-04893</a></td>
               <td>US-204 Northwind Traders</td>
               <td>A0002 Mounting Bracket</td>
               <td class="num">$12,840</td>
@@ -911,7 +914,7 @@
               <td><span class="policy-chip">SRC-DEV-03</span></td>
             </tr>
             <tr>
-              <td><span class="link">PO-2026-04888</span></td>
+              <td><a class="link" href="sourcing-decision.html">PO-2026-04888</a></td>
               <td>US-410 Proseware Inc.</td>
               <td>D0011 Power Module</td>
               <td class="num">$28,475</td>
@@ -922,7 +925,7 @@
               <td><span class="policy-chip">SRC-DEV-04</span></td>
             </tr>
             <tr>
-              <td><span class="link">PO-2026-04875</span></td>
+              <td><a class="link" href="sourcing-decision.html">PO-2026-04875</a></td>
               <td>US-507 Wide World Importers</td>
               <td>T0099 Resistor Pack</td>
               <td class="num">$8,420</td>
@@ -1144,7 +1147,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="link">US-102</span> Tailspin Parts</td>
+              <td><a class="link" href="vendor-360.html">US-102</a> Tailspin Parts</td>
               <td>10</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:96.4%"></span></span><span>96.4%</span></span></td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:99.2%"></span></span><span>99.2%</span></span></td>
@@ -1155,7 +1158,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-104</span> Fabrikam Supplier</td>
+              <td><a class="link" href="vendor-360.html">US-104</a> Fabrikam Supplier</td>
               <td>10</td>
               <td><span class="compliance-bar warn"><span class="bar"><span style="width:91.2%"></span></span><span>91.2%</span></span></td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:97.8%"></span></span><span>97.8%</span></span></td>
@@ -1166,7 +1169,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-105</span> Datum Receivers</td>
+              <td><a class="link" href="vendor-360.html">US-105</a> Datum Receivers</td>
               <td>10</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:94.8%"></span></span><span>94.8%</span></span></td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:98.6%"></span></span><span>98.6%</span></span></td>
@@ -1177,7 +1180,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-204</span> Northwind Traders</td>
+              <td><a class="link" href="vendor-360.html">US-204</a> Northwind Traders</td>
               <td>20</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:93.5%"></span></span><span>93.5%</span></span></td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:96.4%"></span></span><span>96.4%</span></span></td>
@@ -1188,7 +1191,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-203</span> Litware Components</td>
+              <td><a class="link" href="vendor-360.html">US-203</a> Litware Components</td>
               <td>10</td>
               <td><span class="compliance-bar danger"><span class="bar"><span style="width:78.5%"></span></span><span>78.5%</span></span></td>
               <td><span class="compliance-bar warn"><span class="bar"><span style="width:94.1%"></span></span><span>94.1%</span></span></td>
@@ -1199,7 +1202,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-410</span> Proseware Inc.</td>
+              <td><a class="link" href="vendor-360.html">US-410</a> Proseware Inc.</td>
               <td>20</td>
               <td><span class="compliance-bar warn"><span class="bar"><span style="width:88.2%"></span></span><span>88.2%</span></span></td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:97.1%"></span></span><span>97.1%</span></span></td>
@@ -1240,7 +1243,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="link">US-102</span> Tailspin Parts</td>
+              <td><a class="link" href="vendor-360.html">US-102</a> Tailspin Parts</td>
               <td>Net 45</td>
               <td class="num">42.8 d</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:96%"></span></span><span>96%</span></span></td>
@@ -1251,7 +1254,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-104</span> Fabrikam Supplier</td>
+              <td><a class="link" href="vendor-360.html">US-104</a> Fabrikam Supplier</td>
               <td>Net 30</td>
               <td class="num">33.1 d</td>
               <td><span class="compliance-bar warn"><span class="bar"><span style="width:84%"></span></span><span>84%</span></span></td>
@@ -1262,7 +1265,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-105</span> Datum Receivers</td>
+              <td><a class="link" href="vendor-360.html">US-105</a> Datum Receivers</td>
               <td>Net 30</td>
               <td class="num">29.4 d</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:97%"></span></span><span>97%</span></span></td>
@@ -1273,7 +1276,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-204</span> Northwind Traders</td>
+              <td><a class="link" href="vendor-360.html">US-204</a> Northwind Traders</td>
               <td>Net 60</td>
               <td class="num">52.6 d</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:93%"></span></span><span>93%</span></span></td>
@@ -1284,7 +1287,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-203</span> Litware Components</td>
+              <td><a class="link" href="vendor-360.html">US-203</a> Litware Components</td>
               <td>Net 30</td>
               <td class="num">38.2 d</td>
               <td><span class="compliance-bar danger"><span class="bar"><span style="width:62%"></span></span><span>62%</span></span></td>
@@ -1295,7 +1298,7 @@
               <td class="drill">›</td>
             </tr>
             <tr>
-              <td><span class="link">US-410</span> Proseware Inc.</td>
+              <td><a class="link" href="vendor-360.html">US-410</a> Proseware Inc.</td>
               <td>Net 30</td>
               <td class="num">31.4 d</td>
               <td><span class="compliance-bar"><span class="bar"><span style="width:91%"></span></span><span>91%</span></span></td>
@@ -1335,7 +1338,7 @@
           </thead>
           <tbody>
             <tr>
-              <td><span class="link">US-101</span> Fabrikam Electronics</td>
+              <td><a class="link" href="vendor-360.html">US-101</a> Fabrikam Electronics</td>
               <td>10</td>
               <td><span class="risk-score high"><span class="score-pill">87</span></span></td>
               <td>Force majeure declared</td>
@@ -1345,7 +1348,7 @@
               <td><span class="badge badge-danger">Unavailable</span></td>
             </tr>
             <tr>
-              <td><span class="link">US-203</span> Litware Components</td>
+              <td><a class="link" href="vendor-360.html">US-203</a> Litware Components</td>
               <td>10</td>
               <td><span class="risk-score high"><span class="score-pill">72</span></span></td>
               <td>Quality trend deteriorating</td>
@@ -1355,7 +1358,7 @@
               <td><span class="badge badge-amber">On hold</span></td>
             </tr>
             <tr>
-              <td><span class="link">US-318</span> Adventure Works</td>
+              <td><a class="link" href="vendor-360.html">US-318</a> Adventure Works</td>
               <td>20</td>
               <td><span class="risk-score med"><span class="score-pill">64</span></span></td>
               <td>Capacity utilization 98%</td>
@@ -1365,7 +1368,7 @@
               <td><span class="badge badge-warning">Constrained</span></td>
             </tr>
             <tr>
-              <td><span class="link">US-507</span> Wide World Importers</td>
+              <td><a class="link" href="vendor-360.html">US-507</a> Wide World Importers</td>
               <td>30</td>
               <td><span class="risk-score med"><span class="score-pill">58</span></span></td>
               <td>Financial distress signals</td>
@@ -1375,7 +1378,7 @@
               <td><span class="badge badge-warning">Monitoring</span></td>
             </tr>
             <tr>
-              <td><span class="link">US-612</span> Tailwind Toys</td>
+              <td><a class="link" href="vendor-360.html">US-612</a> Tailwind Toys</td>
               <td>20</td>
               <td><span class="risk-score med"><span class="score-pill">52</span></span></td>
               <td>Geopolitical exposure</td>
@@ -1440,11 +1443,11 @@
       <div class="factbox-body activity">
         <div class="activity-entry">
           <div class="activity-time">2 min ago · System</div>
-          <div class="activity-text"><strong>Risk score updated</strong> for <span class="link">US-101</span> → 87 (Critical)</div>
+          <div class="activity-text"><strong>Risk score updated</strong> for <a class="link" href="vendor-360.html">US-101</a> → 87 (Critical)</div>
         </div>
         <div class="activity-entry">
           <div class="activity-time">18 min ago · S. Chen</div>
-          <div class="activity-text">Approved <span class="link">PO-2026-04891</span> — advanced to Finance</div>
+          <div class="activity-text">Approved <a class="link" href="sourcing-decision.html">PO-2026-04891</a> — advanced to Finance</div>
         </div>
         <div class="activity-entry">
           <div class="activity-time">42 min ago · J. Martinez</div>
@@ -1456,11 +1459,11 @@
         </div>
         <div class="activity-entry">
           <div class="activity-time">2 hr ago · System</div>
-          <div class="activity-text"><strong>Disruption raised</strong> for <span class="link">US-101</span> (force majeure)</div>
+          <div class="activity-text"><strong>Disruption raised</strong> for <a class="link" href="vendor-360.html">US-101</a> (force majeure)</div>
         </div>
         <div class="activity-entry">
           <div class="activity-time">Yesterday · D. Patel</div>
-          <div class="activity-text">Approved <span class="link">PO-2026-04875</span> with PPV variance</div>
+          <div class="activity-text">Approved <a class="link" href="sourcing-decision.html">PO-2026-04875</a> with PPV variance</div>
         </div>
       </div>
     </div>
