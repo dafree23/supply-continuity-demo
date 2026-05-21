@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>US-102 Tailspin Parts — Vendor 360</title>
+<style>
+  :root {
+    --fo-blue: #0078d4;
+    --fo-blue-hover: #106ebe;
+    --fo-blue-light: #deecf9;
+    --fo-blue-dark: #004578;
+    --text: #201f1e;
+    --text-secondary: #605e5c;
+    --text-tertiary: #a19f9d;
+    --border: #edebe9;
+    --border-strong: #d2d0ce;
+    --bg-app: #faf9f8;
+    --bg-surface: #ffffff;
+    --bg-hover: #f3f2f1;
+    --bg-selected: #edebe9;
+    --success: #107c10;
+    --success-bg: #dff6dd;
+    --warning: #797673;
+    --warning-bg: #fff4ce;
+    --danger: #a4262c;
+    --danger-bg: #fde7e9;
+    --amber: #d83b01;
+    --amber-bg: #fed9cc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg-app);
+    line-height: 1.4;
+  }
+  body { min-height: 100vh; }
+
+  /* Nav */
+  .nav {
+    background: var(--fo-blue-dark);
+    color: white;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .nav-grid {
+    width: 24px; height: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 4px);
+    grid-template-rows: repeat(3, 4px);
+    gap: 2px;
+    margin-right: 16px;
+  }
+  .nav-grid span { background: white; border-radius: 1px; }
+  .nav-app { font-weight: 600; margin-right: 24px; }
+  .nav-search {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 2px;
+    width: 280px;
+    font-size: 13px;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-item { margin-left: 20px; opacity: 0.9; }
+  .nav-user {
+    width: 32px; height: 32px;
+    background: #e8a900;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    margin-left: 16px;
+  }
+
+  /* Page header */
+  .page-header {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px 0;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .breadcrumb a { color: var(--fo-blue); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb .sep { margin: 0 6px; color: var(--text-tertiary); }
+  .page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .vendor-icon {
+    width: 44px; height: 44px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, var(--fo-blue), var(--fo-blue-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+  }
+  .page-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .status-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--success-bg);
+    color: var(--success);
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-left: 6px;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    margin-left: 58px;
+  }
+
+  /* Action pane */
+  .action-pane {
+    display: flex;
+    gap: 4px;
+    padding: 6px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .action-btn {
+    background: none;
+    border: 1px solid transparent;
+    padding: 5px 12px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .action-btn:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+  .action-btn.primary { background: var(--fo-blue); color: white; }
+  .action-btn.primary:hover { background: var(--fo-blue-hover); }
+  .action-divider { width: 1px; background: var(--border); margin: 4px 8px; }
+
+  /* Tab strip */
+  .tab-strip {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+  }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--fo-blue);
+    font-weight: 600;
+  }
+
+  /* Content */
+  .content {
+    padding: 16px 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    max-width: 1600px;
+  }
+  .main-col { display: flex; flex-direction: column; gap: 12px; }
+  .side-col { display: flex; flex-direction: column; gap: 12px; }
+
+  /* Tiles */
+  .tiles-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 14px;
+    position: relative;
+  }
+  .tile::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--fo-blue);
+  }
+  .tile.ok::before { background: var(--success); }
+  .tile.warn::before { background: var(--amber); }
+  .tile.alert::before { background: var(--danger); }
+  .tile-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+  .tile-value {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+  .tile-value.danger { color: var(--danger); }
+  .tile-value.amber { color: var(--amber); }
+  .tile-value.success { color: var(--success); }
+  .tile-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* FastTab */
+  .fasttab {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .fasttab-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fasttab-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fasttab-title .chevron {
+    color: var(--text-secondary);
+    font-size: 10px;
+  }
+  .fasttab-summary {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .fasttab-summary strong { color: var(--text); }
+  .fasttab-body { padding: 14px 16px; }
+
+  /* FactBox */
+  .factbox {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .factbox-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .factbox-body {
+    padding: 12px;
+    font-size: 12px;
+  }
+  .factbox-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .factbox-row:last-child { border-bottom: none; }
+  .factbox-label { color: var(--text-secondary); }
+  .factbox-value { color: var(--text); font-weight: 500; text-align: right; }
+  .factbox-value.link { color: var(--fo-blue); cursor: pointer; }
+  .factbox-value.link:hover { text-decoration: underline; }
+
+  /* Grid */
+  .grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .grid thead th {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+  .grid tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .grid tbody tr:hover { background: var(--bg-hover); cursor: pointer; }
+  .grid .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .grid .link { color: var(--fo-blue); }
+  .grid .link:hover { text-decoration: underline; }
+  .grid td.drill {
+    width: 28px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+  .grid tbody tr:hover td.drill { color: var(--fo-blue); }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-success { background: var(--success-bg); color: var(--success); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-warning { background: var(--warning-bg); color: #6c5d00; }
+  .badge-info { background: var(--fo-blue-light); color: var(--fo-blue-dark); }
+  .badge-neutral { background: var(--bg-hover); color: var(--text-secondary); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+
+  /* Score gauge */
+  .gauge {
+    position: relative;
+    width: 100%;
+    text-align: center;
+  }
+  .gauge-track {
+    width: 120px; height: 60px;
+    margin: 8px auto 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .gauge-track::before {
+    content: '';
+    position: absolute;
+    width: 120px; height: 120px;
+    border: 12px solid var(--bg-hover);
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+  .gauge-fill {
+    position: absolute;
+    width: 120px; height: 120px;
+    border: 12px solid transparent;
+    border-top-color: var(--success);
+    border-right-color: var(--success);
+    border-radius: 50%;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+  }
+  .gauge-value {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: -22px;
+    position: relative;
+  }
+
+  /* Sparkline */
+  .sparkline {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .spark-cell { display: flex; align-items: center; gap: 10px; }
+  .spark-cell .num-val { font-variant-numeric: tabular-nums; min-width: 50px; }
+
+  /* Bar chart row */
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-row .label { width: 100px; font-size: 12px; color: var(--text-secondary); }
+  .bar-row .bar-bg { flex: 1; height: 16px; background: var(--bg-hover); border-radius: 2px; overflow: hidden; position: relative; }
+  .bar-row .bar-fill { height: 100%; background: var(--fo-blue); }
+  .bar-row .bar-fill.success { background: var(--success); }
+  .bar-row .bar-fill.amber { background: var(--amber); }
+  .bar-row .bar-fill.danger { background: var(--danger); }
+  .bar-row .val { width: 60px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12px; }
+
+  /* Trend */
+  .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    margin-left: 8px;
+  }
+  .trend.up { color: var(--success); }
+  .trend.down { color: var(--danger); }
+  .trend.flat { color: var(--text-secondary); }
+
+  /* Policy chip */
+  .policy-chip {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-hover);
+    color: var(--text);
+    font-size: 11px;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  /* Compliance bar */
+  .compliance-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+    min-width: 110px;
+  }
+  .compliance-bar .bar {
+    width: 70px; height: 6px;
+    background: var(--bg-hover);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .compliance-bar .bar > span {
+    display: block; height: 100%;
+    background: var(--success);
+  }
+  .compliance-bar.warn .bar > span { background: var(--amber); }
+  .compliance-bar.danger .bar > span { background: var(--danger); }
+
+  /* Two-col layout inside fasttab */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="nav-grid">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav-app">Finance and operations</div>
+  <input class="nav-search" placeholder="Search for a page" />
+  <div class="nav-spacer"></div>
+  <span class="nav-item">USMF</span>
+  <span class="nav-item">21 May 2026</span>
+  <div class="nav-user">MA</div>
+</div>
+
+<!-- Page header -->
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="supply-continuity.html">Procurement and sourcing</a>
+    <span class="sep">›</span>
+    <a href="supply-continuity.html">Supply continuity</a>
+    <span class="sep">›</span>
+    <a href="supply-continuity.html">Vendor watchlist</a>
+    <span class="sep">›</span>
+    US-102 Tailspin Parts
+  </div>
+  <div class="page-title-row">
+    <div class="vendor-icon">TP</div>
+    <div>
+      <div class="page-title">
+        US-102 · Tailspin Parts
+        <span class="status-pill">Preferred</span>
+      </div>
+    </div>
+  </div>
+  <div class="page-subtitle">Vendor group 10 · Electronics components · On-contract · DUNS 84-274-1928 · Chicago, IL · USD · Currency: USD</div>
+
+  <!-- Action pane -->
+  <div class="action-pane">
+    <button class="action-btn primary"><span class="icon">+</span> New PO</button>
+    <button class="action-btn"><span class="icon">✎</span> Edit vendor</button>
+    <button class="action-btn"><span class="icon">★</span> Update scorecard</button>
+    <div class="action-divider"></div>
+    <button class="action-btn">Run RFQ</button>
+    <button class="action-btn">View contract</button>
+    <button class="action-btn">Open invoices</button>
+    <button class="action-btn">AVL entries</button>
+    <div class="action-divider"></div>
+    <button class="action-btn">Pause vendor</button>
+    <button class="action-btn">Options ▾</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-strip">
+    <div class="tab active">Overview</div>
+    <div class="tab">Performance</div>
+    <div class="tab">Contracts</div>
+    <div class="tab">Commitments</div>
+    <div class="tab">Payments</div>
+    <div class="tab">Invoices</div>
+    <div class="tab">History</div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+  <div class="main-col">
+
+    <!-- Tiles -->
+    <div class="tiles-row">
+      <div class="tile ok">
+        <div class="tile-label">Risk score</div>
+        <div class="tile-value success">24</div>
+        <div class="tile-sub">Low risk · stable 90d</div>
+      </div>
+      <div class="tile ok">
+        <div class="tile-label">On-time delivery</div>
+        <div class="tile-value success">96.4%</div>
+        <div class="tile-sub">▲ 1.2 pts QoQ</div>
+      </div>
+      <div class="tile ok">
+        <div class="tile-label">Invoice accuracy</div>
+        <div class="tile-value success">99.2%</div>
+        <div class="tile-sub">3 exceptions / 372 invoices</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">Open commitments</div>
+        <div class="tile-value">$184K</div>
+        <div class="tile-sub">12 open POs · 2 sites</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">Actual DPO</div>
+        <div class="tile-value">42.8 d</div>
+        <div class="tile-sub">Terms Net 45 · on policy</div>
+      </div>
+      <div class="tile">
+        <div class="tile-label">Spend YTD</div>
+        <div class="tile-value">$842K</div>
+        <div class="tile-sub">Rank #3 in group 10</div>
+      </div>
+    </div>
+
+    <!-- Performance trend -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Performance trend — last 12 months</div>
+        <div class="fasttab-summary">All KPIs within target tolerance · last refresh today</div>
+      </div>
+      <div class="fasttab-body">
+        <div class="two-col">
+          <div>
+            <table class="grid">
+              <thead>
+                <tr>
+                  <th>Indicator</th>
+                  <th>Current</th>
+                  <th>Target</th>
+                  <th>Trend</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>On-time delivery</td>
+                  <td><strong style="color: var(--success);">96.4%</strong></td>
+                  <td>≥ 95%</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,14 10,16 20,12 30,18 40,11 50,8 60,10 70,7 80,9 90,5 100,4"/>
+                    </svg>
+                    <span class="trend up">▲ 1.2 pts</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Invoice accuracy</td>
+                  <td><strong style="color: var(--success);">99.2%</strong></td>
+                  <td>≥ 98%</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,6 10,7 20,5 30,8 40,4 50,5 60,4 70,3 80,4 90,3 100,2"/>
+                    </svg>
+                    <span class="trend up">▲ 0.4 pts</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Exception rate</td>
+                  <td><strong style="color: var(--success);">1.8%</strong></td>
+                  <td>≤ 3%</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,10 10,12 20,9 30,14 40,8 50,7 60,6 70,5 80,7 90,4 100,5"/>
+                    </svg>
+                    <span class="trend up">▼ 0.8 pts</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Avg cycle time (d)</td>
+                  <td><strong style="color: var(--success);">4.2</strong></td>
+                  <td>≤ 5.0</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,8 10,10 20,9 30,7 40,8 50,6 60,5 70,7 80,5 90,4 100,4"/>
+                    </svg>
+                    <span class="trend up">▼ 0.6 d</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Quality score</td>
+                  <td><strong style="color: var(--success);">98.6</strong></td>
+                  <td>≥ 95</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,4 10,5 20,3 30,6 40,4 50,3 60,3 70,2 80,3 90,2 100,2"/>
+                    </svg>
+                    <span class="trend flat">→ stable</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>DPO compliance</td>
+                  <td><strong style="color: var(--success);">96%</strong></td>
+                  <td>≥ 90%</td>
+                  <td>
+                    <svg class="sparkline" width="100" height="24" viewBox="0 0 100 24">
+                      <polyline fill="none" stroke="#107c10" stroke-width="1.5" points="0,5 10,4 20,6 30,5 40,4 50,3 60,4 70,3 80,2 90,3 100,2"/>
+                    </svg>
+                    <span class="trend up">▲ 2 pts</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; margin-bottom: 10px;">Monthly spend &amp; on-time rate</div>
+            <svg width="100%" height="160" viewBox="0 0 380 160" preserveAspectRatio="none" style="display: block;">
+              <!-- Y axis grid -->
+              <line x1="30" y1="20" x2="380" y2="20" stroke="#edebe9" stroke-width="1"/>
+              <line x1="30" y1="60" x2="380" y2="60" stroke="#edebe9" stroke-width="1"/>
+              <line x1="30" y1="100" x2="380" y2="100" stroke="#edebe9" stroke-width="1"/>
+              <line x1="30" y1="140" x2="380" y2="140" stroke="#605e5c" stroke-width="1"/>
+              <!-- Bars (spend) -->
+              <rect x="35" y="92" width="20" height="48" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="63" y="80" width="20" height="60" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="91" y="85" width="20" height="55" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="119" y="75" width="20" height="65" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="147" y="68" width="20" height="72" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="175" y="72" width="20" height="68" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="203" y="65" width="20" height="75" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="231" y="58" width="20" height="82" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="259" y="62" width="20" height="78" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="287" y="55" width="20" height="85" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="315" y="48" width="20" height="92" fill="#deecf9" stroke="#0078d4"/>
+              <rect x="343" y="42" width="20" height="98" fill="#deecf9" stroke="#0078d4"/>
+              <!-- OTD line -->
+              <polyline fill="none" stroke="#107c10" stroke-width="2" points="45,38 73,32 101,28 129,30 157,24 185,22 213,20 241,18 269,22 297,16 325,14 353,12"/>
+              <!-- Markers -->
+              <circle cx="45" cy="38" r="3" fill="#107c10"/>
+              <circle cx="73" cy="32" r="3" fill="#107c10"/>
+              <circle cx="101" cy="28" r="3" fill="#107c10"/>
+              <circle cx="129" cy="30" r="3" fill="#107c10"/>
+              <circle cx="157" cy="24" r="3" fill="#107c10"/>
+              <circle cx="185" cy="22" r="3" fill="#107c10"/>
+              <circle cx="213" cy="20" r="3" fill="#107c10"/>
+              <circle cx="241" cy="18" r="3" fill="#107c10"/>
+              <circle cx="269" cy="22" r="3" fill="#107c10"/>
+              <circle cx="297" cy="16" r="3" fill="#107c10"/>
+              <circle cx="325" cy="14" r="3" fill="#107c10"/>
+              <circle cx="353" cy="12" r="3" fill="#107c10"/>
+              <!-- Labels -->
+              <text x="45" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Jun</text>
+              <text x="101" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Aug</text>
+              <text x="157" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Oct</text>
+              <text x="213" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Dec</text>
+              <text x="269" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Feb</text>
+              <text x="325" y="155" font-size="9" fill="#605e5c" text-anchor="middle">Apr</text>
+            </svg>
+            <div style="display: flex; gap: 16px; font-size: 11px; color: var(--text-secondary); margin-top: 6px; padding-left: 30px;">
+              <span><span style="display: inline-block; width: 10px; height: 10px; background: #deecf9; border: 1px solid #0078d4; vertical-align: middle; margin-right: 4px;"></span>Monthly spend ($K)</span>
+              <span><span style="display: inline-block; width: 12px; height: 2px; background: #107c10; vertical-align: middle; margin-right: 4px;"></span>On-time delivery (%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contracts -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Active contracts &amp; pricing agreements</div>
+        <div class="fasttab-summary"><strong>3 active</strong> · $1.84M committed value · all on-contract</div>
+      </div>
+      <div class="fasttab-body" style="padding: 0;">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th>Agreement ID</th>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Effective</th>
+              <th>Expires</th>
+              <th class="num">Committed</th>
+              <th class="num">Used</th>
+              <th>Utilization</th>
+              <th>Status</th>
+              <th class="drill"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="link">PA-2025-0118</span></td>
+              <td>Purchase agreement</td>
+              <td>Electronics — speakers</td>
+              <td>01 Jan 2026</td>
+              <td>31 Dec 2026</td>
+              <td class="num">$1,200,000</td>
+              <td class="num">$684,420</td>
+              <td><span class="compliance-bar"><span class="bar"><span style="width:57%"></span></span><span>57%</span></span></td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PA-2025-0119</span></td>
+              <td>Volume pricing</td>
+              <td>Electronics — capacitors</td>
+              <td>01 Jan 2026</td>
+              <td>31 Dec 2026</td>
+              <td class="num">$420,000</td>
+              <td class="num">$118,260</td>
+              <td><span class="compliance-bar"><span class="bar"><span style="width:28%"></span></span><span>28%</span></span></td>
+              <td><span class="badge badge-success">Active</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PA-2024-0084</span></td>
+              <td>MSA</td>
+              <td>Master services agreement</td>
+              <td>01 Mar 2024</td>
+              <td>28 Feb 2027</td>
+              <td class="num">$220,000</td>
+              <td class="num">$184,200</td>
+              <td><span class="compliance-bar warn"><span class="bar"><span style="width:84%"></span></span><span>84%</span></span></td>
+              <td><span class="badge badge-warning">Renew soon</span></td>
+              <td class="drill">›</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Open commitments -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Open commitments &amp; accrued liability</div>
+        <div class="fasttab-summary"><strong>12 open POs</strong> · $184,180 committed · $32,640 received not invoiced</div>
+      </div>
+      <div class="fasttab-body" style="padding: 0;">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th>PO number</th>
+              <th>Entity / Site</th>
+              <th>Item</th>
+              <th class="num">Committed</th>
+              <th class="num">Received</th>
+              <th class="num">Invoiced</th>
+              <th class="num">Accrued liability</th>
+              <th>Status</th>
+              <th class="drill"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="link">PO-2026-04891</span></td>
+              <td>USMF / Site 1</td>
+              <td>D0003 Standard Speaker</td>
+              <td class="num">$91,066</td>
+              <td class="num">$0</td>
+              <td class="num">$0</td>
+              <td class="num">$0</td>
+              <td><span class="badge badge-warning">Pending approval</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PO-2026-04802</span></td>
+              <td>USMF / Site 1</td>
+              <td>D0003 Standard Speaker</td>
+              <td class="num">$42,180</td>
+              <td class="num">$42,180</td>
+              <td class="num">$0</td>
+              <td class="num" style="color: var(--amber); font-weight: 600;">$42,180</td>
+              <td><span class="badge badge-info">Received, pending invoice</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PO-2026-04754</span></td>
+              <td>USMF / Site 2</td>
+              <td>D0006 Capacitor Pack</td>
+              <td class="num">$18,420</td>
+              <td class="num">$12,280</td>
+              <td class="num">$12,280</td>
+              <td class="num">$0</td>
+              <td><span class="badge badge-info">Partially received</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PO-2026-04688</span></td>
+              <td>USMF / Site 1</td>
+              <td>T0099 Resistor Pack</td>
+              <td class="num">$8,420</td>
+              <td class="num">$0</td>
+              <td class="num">$0</td>
+              <td class="num">$0</td>
+              <td><span class="badge badge-success">Confirmed</span></td>
+              <td class="drill">›</td>
+            </tr>
+            <tr>
+              <td><span class="link">PO-2026-04612</span></td>
+              <td>USRT / Site 11</td>
+              <td>D0003 Standard Speaker</td>
+              <td class="num">$24,094</td>
+              <td class="num">$24,094</td>
+              <td class="num">$15,000</td>
+              <td class="num" style="color: var(--amber); font-weight: 600;">$9,094</td>
+              <td><span class="badge badge-info">2-way matched</span></td>
+              <td class="drill">›</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Payments & invoices -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Payment terms &amp; invoice exceptions</div>
+        <div class="fasttab-summary">Terms <strong>Net 45 (2/10)</strong> · DPO <strong>42.8 d</strong> · Early-pay capture <strong>100%</strong></div>
+      </div>
+      <div class="fasttab-body">
+        <div class="two-col">
+          <div>
+            <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; margin-bottom: 10px;">DPO &amp; term compliance · 6mo</div>
+            <div class="bar-row" style="margin-bottom: 6px;">
+              <div class="label">DPO target</div>
+              <div class="bar-bg"><div class="bar-fill" style="width: 100%; background: var(--border-strong);"></div></div>
+              <div class="val">45.0 d</div>
+            </div>
+            <div class="bar-row" style="margin-bottom: 6px;">
+              <div class="label">Actual DPO</div>
+              <div class="bar-bg"><div class="bar-fill success" style="width: 95%;"></div></div>
+              <div class="val">42.8 d</div>
+            </div>
+            <div class="bar-row" style="margin-bottom: 6px;">
+              <div class="label">Term compliance</div>
+              <div class="bar-bg"><div class="bar-fill success" style="width: 96%;"></div></div>
+              <div class="val">96%</div>
+            </div>
+            <div class="bar-row" style="margin-bottom: 6px;">
+              <div class="label">2/10 captured</div>
+              <div class="bar-bg"><div class="bar-fill success" style="width: 100%;"></div></div>
+              <div class="val">100%</div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; margin: 18px 0 10px;">Invoice volume &amp; exception breakdown</div>
+            <table class="grid" style="font-size: 12px;">
+              <tbody>
+                <tr>
+                  <td>Total invoices YTD</td>
+                  <td class="num"><strong>372</strong></td>
+                </tr>
+                <tr>
+                  <td>Clean 3-way match</td>
+                  <td class="num" style="color: var(--success);">365 (98.1%)</td>
+                </tr>
+                <tr>
+                  <td>Price exceptions</td>
+                  <td class="num">3</td>
+                </tr>
+                <tr>
+                  <td>Quantity exceptions</td>
+                  <td class="num">2</td>
+                </tr>
+                <tr>
+                  <td>Tax / freight discrepancy</td>
+                  <td class="num">2</td>
+                </tr>
+                <tr>
+                  <td>Avg time to resolve</td>
+                  <td class="num">1.4 d</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <div style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; margin-bottom: 10px;">Recent invoices</div>
+            <table class="grid">
+              <thead>
+                <tr>
+                  <th>Invoice</th>
+                  <th>Date</th>
+                  <th class="num">Amount</th>
+                  <th>Match</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="link">INV-8242</span></td>
+                  <td>18 May</td>
+                  <td class="num">$42,180</td>
+                  <td><span class="badge badge-success">3-way</span></td>
+                  <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                  <td><span class="link">INV-8198</span></td>
+                  <td>14 May</td>
+                  <td class="num">$18,420</td>
+                  <td><span class="badge badge-success">3-way</span></td>
+                  <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                  <td><span class="link">INV-8154</span></td>
+                  <td>10 May</td>
+                  <td class="num">$8,640</td>
+                  <td><span class="badge badge-warning">Price var</span></td>
+                  <td><span class="badge badge-info">Resolved</span></td>
+                </tr>
+                <tr>
+                  <td><span class="link">INV-8128</span></td>
+                  <td>06 May</td>
+                  <td class="num">$24,094</td>
+                  <td><span class="badge badge-success">3-way</span></td>
+                  <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+                <tr>
+                  <td><span class="link">INV-8094</span></td>
+                  <td>02 May</td>
+                  <td class="num">$12,280</td>
+                  <td><span class="badge badge-success">3-way</span></td>
+                  <td><span class="badge badge-success">Paid</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar -->
+  <div class="side-col">
+
+    <div class="factbox">
+      <div class="factbox-header">Vendor summary</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">Account</span><span class="factbox-value">US-102</span></div>
+        <div class="factbox-row"><span class="factbox-label">Name</span><span class="factbox-value">Tailspin Parts</span></div>
+        <div class="factbox-row"><span class="factbox-label">Group</span><span class="factbox-value link">10 — Electronics</span></div>
+        <div class="factbox-row"><span class="factbox-label">Currency</span><span class="factbox-value">USD</span></div>
+        <div class="factbox-row"><span class="factbox-label">Terms</span><span class="factbox-value">Net 45 (2/10)</span></div>
+        <div class="factbox-row"><span class="factbox-label">Method of payment</span><span class="factbox-value">ACH</span></div>
+        <div class="factbox-row"><span class="factbox-label">Contact</span><span class="factbox-value link">M. Reynolds</span></div>
+        <div class="factbox-row"><span class="factbox-label">Location</span><span class="factbox-value">Chicago, IL</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Compliance posture</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">Contract status</span><span class="badge badge-success">On-contract</span></div>
+        <div class="factbox-row"><span class="factbox-label">Preferred status</span><span class="badge badge-success">Preferred</span></div>
+        <div class="factbox-row"><span class="factbox-label">Insurance on file</span><span class="badge badge-success">Current</span></div>
+        <div class="factbox-row"><span class="factbox-label">W-9 / 1099</span><span class="badge badge-success">Verified</span></div>
+        <div class="factbox-row"><span class="factbox-label">D&amp;B credit</span><span class="factbox-value">4A2 (Good)</span></div>
+        <div class="factbox-row"><span class="factbox-label">Sanctions screening</span><span class="badge badge-success">Clear</span></div>
+        <div class="factbox-row"><span class="factbox-label">Last review</span><span class="factbox-value">14 Mar 2026</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Approved item categories</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">D0003 Standard Speaker</span><span class="factbox-value">Rank 2</span></div>
+        <div class="factbox-row"><span class="factbox-label">D0006 Capacitor Pack</span><span class="factbox-value">Rank 3</span></div>
+        <div class="factbox-row"><span class="factbox-label">T0099 Resistor Pack</span><span class="factbox-value">Rank 1</span></div>
+        <div class="factbox-row"><span class="factbox-label">T0100 Inductor Coil</span><span class="factbox-value">Rank 2</span></div>
+        <div class="factbox-row"><span class="factbox-label">D0011 Power Module</span><span class="factbox-value">Rank 4</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Related</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">All open POs</span><span class="factbox-value link">12</span></div>
+        <div class="factbox-row"><span class="factbox-label">Recent invoices</span><span class="factbox-value link">372 YTD</span></div>
+        <div class="factbox-row"><span class="factbox-label">Active agreements</span><span class="factbox-value link">3</span></div>
+        <div class="factbox-row"><span class="factbox-label">AVL entries</span><span class="factbox-value link">5</span></div>
+        <div class="factbox-row"><span class="factbox-label">Quality cases</span><span class="factbox-value link">0 open</span></div>
+        <div class="factbox-row"><span class="factbox-label">Audit log</span><span class="factbox-value link">View</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

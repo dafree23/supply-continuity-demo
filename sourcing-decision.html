@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Supply Disruption & Alternate Sourcing Governance — USMF</title>
+<style>
+  :root {
+    --fo-blue: #0078d4;
+    --fo-blue-hover: #106ebe;
+    --fo-blue-light: #deecf9;
+    --fo-blue-dark: #004578;
+    --text: #201f1e;
+    --text-secondary: #605e5c;
+    --text-tertiary: #a19f9d;
+    --border: #edebe9;
+    --border-strong: #d2d0ce;
+    --bg-app: #faf9f8;
+    --bg-surface: #ffffff;
+    --bg-hover: #f3f2f1;
+    --bg-selected: #edebe9;
+    --success: #107c10;
+    --success-bg: #dff6dd;
+    --warning: #797673;
+    --warning-bg: #fff4ce;
+    --danger: #a4262c;
+    --danger-bg: #fde7e9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    font-family: 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg-app);
+    line-height: 1.4;
+  }
+  body { min-height: 100vh; }
+
+  /* ===== Top navigation bar (Dynamics-style) ===== */
+  .nav {
+    background: var(--fo-blue-dark);
+    color: white;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+  .nav-grid {
+    width: 24px; height: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 4px);
+    grid-template-rows: repeat(3, 4px);
+    gap: 2px;
+    margin-right: 16px;
+  }
+  .nav-grid span { background: white; border-radius: 1px; }
+  .nav-app { font-weight: 600; margin-right: 24px; }
+  .nav-search {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 2px;
+    width: 280px;
+    font-size: 13px;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-item { margin-left: 20px; opacity: 0.9; font-size: 13px; }
+  .nav-user {
+    width: 32px; height: 32px;
+    background: #e8a900;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    margin-left: 16px;
+  }
+
+  /* ===== Page header ===== */
+  .page-header {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px 0;
+  }
+  .breadcrumb {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+  .breadcrumb a { color: var(--fo-blue); text-decoration: none; }
+  .breadcrumb .sep { margin: 0 6px; color: var(--text-tertiary); }
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  /* Action pane (ribbon-style) */
+  .action-pane {
+    display: flex;
+    gap: 4px;
+    padding: 6px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .action-btn {
+    background: none;
+    border: 1px solid transparent;
+    padding: 5px 12px;
+    font-size: 13px;
+    color: var(--text);
+    cursor: pointer;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+  }
+  .action-btn:hover { background: var(--bg-hover); border-color: var(--border-strong); }
+  .action-btn.primary { background: var(--fo-blue); color: white; }
+  .action-btn.primary:hover { background: var(--fo-blue-hover); }
+  .action-btn .icon { font-size: 14px; }
+  .action-divider { width: 1px; background: var(--border); margin: 4px 8px; }
+
+  /* Tab strip */
+  .tab-strip {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+  .tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+  }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--fo-blue);
+    font-weight: 600;
+  }
+
+  /* ===== Main content area ===== */
+  .content {
+    padding: 16px 24px 32px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+    max-width: 1600px;
+  }
+  .main-col { display: flex; flex-direction: column; gap: 12px; }
+  .side-col { display: flex; flex-direction: column; gap: 12px; }
+
+  /* Notification bar */
+  .notification {
+    background: var(--warning-bg);
+    border: 1px solid #f9d77a;
+    border-left: 4px solid #d83b01;
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 2px;
+  }
+  .notification .icon {
+    color: #d83b01;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .notification strong { color: var(--text); }
+  .notification-text { color: var(--text); }
+  .notification-text small { display: block; color: var(--text-secondary); margin-top: 2px; }
+
+  /* FastTab card */
+  .fasttab {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .fasttab-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-surface);
+  }
+  .fasttab-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fasttab-title .chevron {
+    color: var(--text-secondary);
+    font-size: 10px;
+  }
+  .fasttab-summary {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .fasttab-body { padding: 14px 16px; }
+
+  /* FactBox-style side panel */
+  .factbox {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+  .factbox-header {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .factbox-body {
+    padding: 12px;
+    font-size: 12px;
+  }
+  .factbox-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .factbox-row:last-child { border-bottom: none; }
+  .factbox-label { color: var(--text-secondary); }
+  .factbox-value { color: var(--text); font-weight: 500; text-align: right; }
+  .factbox-value.link { color: var(--fo-blue); cursor: pointer; }
+
+  /* Grid (table) */
+  .grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .grid thead th {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .grid tbody td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .grid tbody tr:hover { background: var(--bg-hover); }
+  .grid tbody tr.selected { background: var(--fo-blue-light); }
+  .grid tbody tr.disabled { color: var(--text-tertiary); }
+  .grid tbody tr.disabled td:first-child { color: var(--text-tertiary); text-decoration: line-through; }
+  .grid .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .grid .link { color: var(--fo-blue); cursor: pointer; }
+  .grid .link:hover { text-decoration: underline; }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .badge-success { background: var(--success-bg); color: var(--success); }
+  .badge-danger { background: var(--danger-bg); color: var(--danger); }
+  .badge-warning { background: var(--warning-bg); color: #6c5d00; }
+  .badge-info { background: var(--fo-blue-light); color: var(--fo-blue-dark); }
+  .badge-neutral { background: var(--bg-hover); color: var(--text-secondary); }
+
+  /* Form field */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 4px 16px;
+    align-items: center;
+  }
+  .field-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+  }
+  .field-value {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 0;
+  }
+  .field-input {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--text-secondary);
+    padding: 5px 8px;
+    font-family: inherit;
+    font-size: 13px;
+    border-radius: 0;
+    width: 100%;
+  }
+  .field-input.readonly {
+    background: var(--bg-hover);
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  /* Two-column body */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* PPV tile */
+  .kpi {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    border-radius: 2px;
+    background: var(--bg-surface);
+  }
+  .kpi.alt { background: #fff8e1; border-color: #f9d77a; }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 600;
+  }
+  .kpi-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 4px;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+  .kpi-value.negative { color: var(--danger); }
+
+  /* Workflow steps */
+  .workflow-step {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .workflow-step:last-child { border-bottom: none; }
+  .step-num {
+    width: 22px; height: 22px;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 10px;
+    background: var(--bg-surface);
+    flex-shrink: 0;
+  }
+  .step-num.done {
+    background: var(--success);
+    color: white;
+    border-color: var(--success);
+  }
+  .step-num.active {
+    background: var(--fo-blue);
+    color: white;
+    border-color: var(--fo-blue);
+  }
+  .step-content { flex: 1; }
+  .step-title { font-weight: 500; color: var(--text); }
+  .step-meta { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+
+  /* Attachment chip */
+  .attachment {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: var(--fo-blue-light);
+    color: var(--fo-blue-dark);
+    border: 1px solid #c7e0f4;
+    border-radius: 2px;
+    font-size: 12px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+
+  /* Timeline */
+  .timeline { font-size: 12px; }
+  .timeline-entry {
+    display: flex;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline-entry:last-child { border-bottom: none; }
+  .timeline-time {
+    color: var(--text-secondary);
+    font-size: 11px;
+    width: 90px;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .timeline-content { flex: 1; }
+  .timeline-action { color: var(--text); }
+  .timeline-action strong { color: var(--text); }
+  .timeline-user { color: var(--text-secondary); font-size: 11px; margin-top: 1px; }
+
+  /* PO summary box */
+  .summary-table { width: 100%; font-size: 13px; }
+  .summary-table td { padding: 4px 0; }
+  .summary-table td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  .summary-table tr.total td {
+    padding-top: 8px;
+    border-top: 1px solid var(--border-strong);
+    font-weight: 600;
+  }
+  .summary-table tr.variance td {
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  /* Status pill in title */
+  .status-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    background: var(--warning-bg);
+    color: #6c5d00;
+    border: 1px solid #f9d77a;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 2px;
+    margin-left: 10px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Top navigation -->
+<div class="nav">
+  <div class="nav-grid">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+  <div class="nav-app">Finance and operations</div>
+  <input class="nav-search" placeholder="Search for a page" />
+  <div class="nav-spacer"></div>
+  <span class="nav-item">USMF</span>
+  <span class="nav-item">21 May 2026</span>
+  <div class="nav-user">MA</div>
+</div>
+
+<!-- Page header -->
+<div class="page-header">
+  <div class="breadcrumb">
+    <a href="#">Procurement and sourcing</a>
+    <span class="sep">›</span>
+    <a href="#">Supply continuity</a>
+    <span class="sep">›</span>
+    <a href="#">Sourcing decisions</a>
+    <span class="sep">›</span>
+    PO-2026-04891
+  </div>
+  <div class="page-title">
+    PO-2026-04891 : US-102 Tailspin Parts
+    <span class="status-pill">Pending approval</span>
+  </div>
+  <div class="page-subtitle">Sourcing decision · Buyer: J. Martinez · Created 21 May 2026 · Site 1 / Warehouse 11</div>
+
+  <!-- Action pane -->
+  <div class="action-pane">
+    <button class="action-btn primary"><span class="icon">✓</span> Submit</button>
+    <button class="action-btn"><span class="icon">+</span> New</button>
+    <button class="action-btn"><span class="icon">✎</span> Edit</button>
+    <button class="action-btn"><span class="icon">🗑</span> Delete</button>
+    <div class="action-divider"></div>
+    <button class="action-btn">Purchase</button>
+    <button class="action-btn">Invoice</button>
+    <button class="action-btn">Receive</button>
+    <button class="action-btn">General</button>
+    <button class="action-btn">Manage</button>
+    <div class="action-divider"></div>
+    <button class="action-btn">Workflow ▾</button>
+    <button class="action-btn">Attachments (4)</button>
+  </div>
+
+  <!-- Tab strip -->
+  <div class="tab-strip">
+    <div class="tab active">Header view</div>
+    <div class="tab">Line view</div>
+  </div>
+</div>
+
+<!-- Main content -->
+<div class="content">
+  <div class="main-col">
+
+    <!-- Notification -->
+    <div class="notification">
+      <span class="icon">⚠</span>
+      <div class="notification-text">
+        <strong>Supply disruption alert.</strong> Primary vendor US-101 Fabrikam Electronics flagged Unavailable on 20 May 2026 (force majeure). Alternate vendor selected from approved vendor list with policy-driven approval routing.
+        <small>4 open POs rerouted | Recovery ETA: 6–8 weeks | Source: Vendor risk monitor</small>
+      </div>
+    </div>
+
+    <!-- FastTab 1: Approved vendor list -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Approved vendor list — D0003 Standard Speaker</div>
+        <div class="fasttab-summary">4 vendors | Policy: AVL-RANK-001 | Check method: Warning</div>
+      </div>
+      <div class="fasttab-body" style="padding: 0;">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th style="width: 40px;">Rank</th>
+              <th>Vendor account</th>
+              <th>Vendor name</th>
+              <th>Vendor group</th>
+              <th class="num">Unit price</th>
+              <th>Terms</th>
+              <th>Lead time</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="disabled">
+              <td>1</td>
+              <td class="link">US-101</td>
+              <td>Fabrikam Electronics</td>
+              <td>10</td>
+              <td class="num">168.64</td>
+              <td>Net 30 / FOB Origin</td>
+              <td>7 days</td>
+              <td><span class="badge badge-danger">Unavailable</span></td>
+            </tr>
+            <tr class="selected">
+              <td>2</td>
+              <td class="link">US-102</td>
+              <td>Tailspin Parts</td>
+              <td>10</td>
+              <td class="num">182.13</td>
+              <td>Net 45 / FOB Destination</td>
+              <td>12 days</td>
+              <td><span class="badge badge-info">Selected</span></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="link">US-104</td>
+              <td>Fabrikam Supplier</td>
+              <td>10</td>
+              <td class="num">189.20</td>
+              <td>Net 30 / FOB Origin</td>
+              <td>14 days</td>
+              <td><span class="badge badge-neutral">Approved</span></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="link">US-105</td>
+              <td>Datum Receivers</td>
+              <td>10</td>
+              <td class="num">193.95</td>
+              <td>Net 30 / FOB Destination</td>
+              <td>18 days</td>
+              <td><span class="badge badge-neutral">Approved</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FastTab 2: Price impact + workflow -->
+    <div class="two-col">
+      <div class="fasttab">
+        <div class="fasttab-header">
+          <div class="fasttab-title"><span class="chevron">▼</span> Price impact &amp; PPV</div>
+          <div class="fasttab-summary">+8.00% variance</div>
+        </div>
+        <div class="fasttab-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div class="kpi">
+              <div class="kpi-label">Standard cost</div>
+              <div class="kpi-value">84,320.00</div>
+              <div class="kpi-sub">500 EA × 168.64 (US-101)</div>
+            </div>
+            <div class="kpi alt">
+              <div class="kpi-label">Alternate quote</div>
+              <div class="kpi-value">91,065.60</div>
+              <div class="kpi-sub">500 EA × 182.13 (US-102)</div>
+            </div>
+          </div>
+          <table class="summary-table">
+            <tr><td>Unit price variance</td><td>+13.49 / EA</td></tr>
+            <tr><td>Freight terms change</td><td>+450.00 (FOB Dest)</td></tr>
+            <tr><td>Lead time impact</td><td>+5 days</td></tr>
+            <tr><td>Downstream margin (M0001 BOM)</td><td>−1.2 pts</td></tr>
+            <tr class="variance total"><td>Total PPV (unfavorable)</td><td>+6,745.60 USD</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="fasttab">
+        <div class="fasttab-header">
+          <div class="fasttab-title"><span class="chevron">▼</span> Approval workflow</div>
+          <div class="fasttab-summary">Step 3 of 4 in progress</div>
+        </div>
+        <div class="fasttab-body" style="padding: 0;">
+          <div class="workflow-step">
+            <div class="step-num done">✓</div>
+            <div class="step-content">
+              <div class="step-title">Variance threshold check</div>
+              <div class="step-meta">Rule PURCH-VAR-005 · +8.0% &gt; 5.0% policy</div>
+            </div>
+            <span class="badge badge-success">Triggered</span>
+          </div>
+          <div class="workflow-step">
+            <div class="step-num done">✓</div>
+            <div class="step-content">
+              <div class="step-title">Procurement Manager review</div>
+              <div class="step-meta">Sarah Chen · approved 09:38</div>
+            </div>
+            <span class="badge badge-success">Approved</span>
+          </div>
+          <div class="workflow-step">
+            <div class="step-num active">3</div>
+            <div class="step-content">
+              <div class="step-title">Finance Controller — PPV sign-off</div>
+              <div class="step-meta">David Patel · required for PPV &gt; $5,000</div>
+            </div>
+            <span class="badge badge-info">In review</span>
+          </div>
+          <div class="workflow-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title">VP Operations</div>
+              <div class="step-meta">Conditional · required only for PPV &gt; $10,000</div>
+            </div>
+            <span class="badge badge-neutral">Not required</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FastTab 3: Reason codes -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Sourcing deviation — reason codes &amp; documentation</div>
+        <div class="fasttab-summary">SRC-DEV-02 · 4 attachments</div>
+      </div>
+      <div class="fasttab-body">
+        <div class="field-grid">
+          <div class="field-label">Deviation reason</div>
+          <div class="field-value"><input class="field-input readonly" value="SRC-DEV-02 — Primary vendor unavailable (force majeure)" readonly /></div>
+
+          <div class="field-label">Override authorization</div>
+          <div class="field-value"><input class="field-input readonly" value="OVR-EMERGENCY-01 — Emergency sourcing" readonly /></div>
+
+          <div class="field-label">Business justification</div>
+          <div class="field-value" style="padding-top: 6px;"><textarea class="field-input readonly" rows="3" readonly>Fabrikam Electronics issued force majeure notice on 2026-05-20. Production line at risk if not sourced by 2026-05-28. Tailspin Parts (US-102) confirmed availability at +8% unit cost with 5-day lead-time premium and FOB Destination freight.</textarea></div>
+
+          <div class="field-label">Attachments</div>
+          <div class="field-value" style="padding-top: 6px;">
+            <span class="attachment">📄 Force_majeure_notice.pdf</span>
+            <span class="attachment">📄 Tailspin_quote_Q2-2026.pdf</span>
+            <span class="attachment">📄 Risk_assessment.xlsx</span>
+            <span class="attachment">📧 Email_thread_supplier.msg</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FastTab 4: Lines -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Purchase order lines</div>
+        <div class="fasttab-summary">1 line | 91,065.60 USD</div>
+      </div>
+      <div class="fasttab-body" style="padding: 0;">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th style="width: 36px;">Line</th>
+              <th>Item number</th>
+              <th>Product name</th>
+              <th class="num">Quantity</th>
+              <th>Unit</th>
+              <th class="num">Unit price</th>
+              <th class="num">Net amount</th>
+              <th>Delivery date</th>
+              <th>Site / Warehouse</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td class="link">D0003</td>
+              <td>Standard Speaker</td>
+              <td class="num">500.00</td>
+              <td>ea</td>
+              <td class="num">182.13</td>
+              <td class="num">91,065.60</td>
+              <td>28 May 2026</td>
+              <td>1 / 11</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FastTab 5: Audit trail -->
+    <div class="fasttab">
+      <div class="fasttab-header">
+        <div class="fasttab-title"><span class="chevron">▼</span> Audit trail — sourcing event history</div>
+        <div class="fasttab-summary">9 events | Immutable log</div>
+      </div>
+      <div class="fasttab-body">
+        <div class="timeline">
+          <div class="timeline-entry">
+            <div class="timeline-time">20 May 14:23</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>Supply alert raised</strong> — US-101 marked Unavailable (force majeure)</div>
+              <div class="timeline-user">System · Vendor risk monitor</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">20 May 14:24</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>Open POs flagged</strong> — 4 POs identified for rerouting</div>
+              <div class="timeline-user">System · Rule SUPPLY-RISK-007</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 08:12</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>AVL surfaced</strong> for D0003 — 3 alternates evaluated</div>
+              <div class="timeline-user">J. Martinez · MRP workbench</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 08:31</div>
+            <div class="timeline-content">
+              <div class="timeline-action">Quotes requested from US-102, US-104, US-105</div>
+              <div class="timeline-user">J. Martinez</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 09:15</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>US-102 Tailspin Parts selected</strong> — best lead time and price</div>
+              <div class="timeline-user">J. Martinez</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 09:16</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>Threshold breach</strong> — +8.0% &gt; 5.0% policy · workflow triggered</div>
+              <div class="timeline-user">System · Workflow engine</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 09:22</div>
+            <div class="timeline-content">
+              <div class="timeline-action">Reason code SRC-DEV-02 recorded · 4 attachments uploaded</div>
+              <div class="timeline-user">J. Martinez</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 09:38</div>
+            <div class="timeline-content">
+              <div class="timeline-action"><strong>Approved</strong> by Procurement Manager — advancing to Finance</div>
+              <div class="timeline-user">Sarah Chen</div>
+            </div>
+          </div>
+          <div class="timeline-entry">
+            <div class="timeline-time">21 May 09:42</div>
+            <div class="timeline-content">
+              <div class="timeline-action">Routed to D. Patel for Finance PPV sign-off</div>
+              <div class="timeline-user">System · Workflow engine</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Side FactBoxes -->
+  <div class="side-col">
+    <div class="factbox">
+      <div class="factbox-header">Purchase order summary</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">PO number</span><span class="factbox-value">PO-2026-04891</span></div>
+        <div class="factbox-row"><span class="factbox-label">Vendor</span><span class="factbox-value link">US-102</span></div>
+        <div class="factbox-row"><span class="factbox-label">Status</span><span class="factbox-value">Pending approval</span></div>
+        <div class="factbox-row"><span class="factbox-label">Buyer</span><span class="factbox-value">J. Martinez</span></div>
+        <div class="factbox-row"><span class="factbox-label">Site / Warehouse</span><span class="factbox-value">1 / 11</span></div>
+        <div class="factbox-row"><span class="factbox-label">Currency</span><span class="factbox-value">USD</span></div>
+        <div class="factbox-row"><span class="factbox-label">Net amount</span><span class="factbox-value">91,065.60</span></div>
+        <div class="factbox-row"><span class="factbox-label">PPV vs. standard</span><span class="factbox-value" style="color: var(--danger);">+6,745.60</span></div>
+        <div class="factbox-row"><span class="factbox-label">Need-by date</span><span class="factbox-value">28 May 2026</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Related information</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">Item</span><span class="factbox-value link">D0003</span></div>
+        <div class="factbox-row"><span class="factbox-label">Cost center</span><span class="factbox-value link">CC-2400</span></div>
+        <div class="factbox-row"><span class="factbox-label">Approval workflow</span><span class="factbox-value link">PO-VAR-WF</span></div>
+        <div class="factbox-row"><span class="factbox-label">Policy</span><span class="factbox-value link">PURCH-VAR-005</span></div>
+        <div class="factbox-row"><span class="factbox-label">Reason code</span><span class="factbox-value link">SRC-DEV-02</span></div>
+        <div class="factbox-row"><span class="factbox-label">Original PO (US-101)</span><span class="factbox-value link">PO-2026-04812</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Vendor risk — US-101</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">Status</span><span class="factbox-value" style="color: var(--danger);">Unavailable</span></div>
+        <div class="factbox-row"><span class="factbox-label">Reason</span><span class="factbox-value">Force majeure</span></div>
+        <div class="factbox-row"><span class="factbox-label">Notified</span><span class="factbox-value">20 May 2026</span></div>
+        <div class="factbox-row"><span class="factbox-label">Recovery ETA</span><span class="factbox-value">6–8 weeks</span></div>
+        <div class="factbox-row"><span class="factbox-label">Affected items</span><span class="factbox-value">12</span></div>
+        <div class="factbox-row"><span class="factbox-label">Open POs at risk</span><span class="factbox-value">4</span></div>
+      </div>
+    </div>
+
+    <div class="factbox">
+      <div class="factbox-header">Vendor scorecard — US-102</div>
+      <div class="factbox-body">
+        <div class="factbox-row"><span class="factbox-label">On-time delivery</span><span class="factbox-value">96.4%</span></div>
+        <div class="factbox-row"><span class="factbox-label">Invoice accuracy</span><span class="factbox-value">99.2%</span></div>
+        <div class="factbox-row"><span class="factbox-label">Exception rate</span><span class="factbox-value">1.8%</span></div>
+        <div class="factbox-row"><span class="factbox-label">Avg cycle time</span><span class="factbox-value">4.2 days</span></div>
+        <div class="factbox-row"><span class="factbox-label">Open commitments</span><span class="factbox-value">$184K</span></div>
+        <div class="factbox-row"><span class="factbox-label">Contract status</span><span class="factbox-value" style="color: var(--success);">On-contract</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
