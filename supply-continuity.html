@@ -593,15 +593,15 @@
 
   <!-- Tab strip -->
   <div class="tab-strip">
-    <div class="tab active">Overview</div>
-    <div class="tab">Disruptions</div>
-    <div class="tab">Sourcing</div>
-    <div class="tab">Approvals</div>
-    <div class="tab">Contracts</div>
-    <div class="tab">Commitments</div>
-    <div class="tab">Performance</div>
-    <div class="tab">Payments</div>
-    <div class="tab">Analytics</div>
+    <div class="tab active" data-tab="overview">Overview</div>
+    <div class="tab" data-tab="disruptions">Disruptions</div>
+    <div class="tab" data-tab="sourcing">Sourcing</div>
+    <div class="tab" data-tab="approvals">Approvals</div>
+    <div class="tab" data-tab="contracts">Contracts</div>
+    <div class="tab" data-tab="commitments">Commitments</div>
+    <div class="tab" data-tab="performance">Performance</div>
+    <div class="tab" data-tab="payments">Payments</div>
+    <div class="tab" data-tab="analytics">Analytics</div>
   </div>
 </div>
 
@@ -678,7 +678,7 @@
     </div>
 
     <!-- Active disruptions -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="disruptions">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Active disruptions
@@ -752,7 +752,7 @@
     </div>
 
     <!-- Pending sourcing decisions -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="sourcing">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Pending sourcing decisions
@@ -856,7 +856,7 @@
     </div>
 
     <!-- In approval -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="approvals">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> In approval workflow
@@ -941,7 +941,7 @@
     </div>
 
     <!-- Contract compliance -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="contracts">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Contract compliance
@@ -1038,7 +1038,7 @@
     </div>
 
     <!-- Open commitments & accrued liability -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="commitments">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Open commitments &amp; accrued liability
@@ -1122,7 +1122,7 @@
     </div>
 
     <!-- Supplier performance -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="performance">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Supplier performance scorecards
@@ -1218,7 +1218,7 @@
     </div>
 
     <!-- Payment terms & DPO -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="payments">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Payment terms &amp; DPO compliance
@@ -1314,7 +1314,7 @@
     </div>
 
     <!-- Vendor watchlist -->
-    <div class="fasttab">
+    <div class="fasttab" data-section="performance">
       <div class="fasttab-header">
         <div class="fasttab-title">
           <span class="chevron">▼</span> Vendor watchlist
@@ -1389,6 +1389,20 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Analytics placeholder -->
+    <div class="fasttab" data-section="analytics" style="display: none;">
+      <div class="fasttab-header">
+        <div class="fasttab-title">
+          <span class="chevron">▼</span> Analytics
+        </div>
+        <div class="fasttab-summary">Interactive analytics dashboards</div>
+      </div>
+      <div class="fasttab-body" style="padding: 40px; text-align: center;">
+        <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 8px;">📊 Power BI analytics embed</div>
+        <div style="font-size: 12px; color: var(--text-tertiary);">Spend trends, supplier risk heatmap, PPV variance, OTD by category.<br/>Connect from <span style="color: var(--fo-blue);">Power Platform &gt; Embedded analytics</span>.</div>
       </div>
     </div>
 
@@ -1482,6 +1496,36 @@
 
   </div>
 </div>
+
+<script>
+(function() {
+  var tabs = document.querySelectorAll('.tab-strip .tab');
+  var sections = document.querySelectorAll('.fasttab[data-section]');
+
+  function activate(tabName) {
+    tabs.forEach(function(t) {
+      t.classList.toggle('active', t.getAttribute('data-tab') === tabName);
+    });
+    if (tabName === 'overview') {
+      sections.forEach(function(s) {
+        s.style.display = s.getAttribute('data-section') === 'analytics' ? 'none' : '';
+      });
+    } else {
+      sections.forEach(function(s) {
+        s.style.display = s.getAttribute('data-section') === tabName ? '' : 'none';
+      });
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  tabs.forEach(function(t) {
+    t.addEventListener('click', function() {
+      var tabName = t.getAttribute('data-tab');
+      if (tabName) activate(tabName);
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
